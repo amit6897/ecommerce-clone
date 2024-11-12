@@ -7,16 +7,21 @@ import com.ecommerceClone.orderManagement.entity.Address;
 import com.ecommerceClone.orderManagement.entity.Order;
 import com.ecommerceClone.orderManagement.entity.OrderStatus;
 import com.ecommerceClone.orderManagement.repo.OrderRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
+    private final RestTemplate restTemplate;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, RestTemplate restTemplate) {
         this.orderRepository = orderRepository;
+        this.restTemplate = restTemplate;
     }
 
     /*
@@ -65,6 +70,20 @@ public class OrderServiceImpl implements OrderService {
         }
         return false;
     }
+
+    /*
+    @Override
+    public boolean validateUser(Long userId) {
+        String url = "http://localhost:9191/api/users" + userId + "/validate";
+        Boolean isValid = restTemplate.getForObject(url, Boolean.class);
+        return isValid!=null && isValid;
+    }
+
+    @Override
+    public void placeOrder(Long userId, OrderRequestDTO orderRequestDTO) {
+
+    }
+     */
 
     private OrderResponseDTO convertToDTO(Order order) {
         OrderResponseDTO dto = new OrderResponseDTO();
